@@ -24,4 +24,6 @@ RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 EXPOSE 80
-CMD service nginx start && php-fpm
+
+# --- THE FIX: Run migrations before starting the web server ---
+CMD php artisan migrate --force && service nginx start && php-fpm
